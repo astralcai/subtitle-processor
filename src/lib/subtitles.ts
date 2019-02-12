@@ -4,7 +4,7 @@
 
 "use strict";
 
-import {EOL} from "./formatter";
+import {EOL, INameDict} from "./formatter";
 import * as formatter from "./formatter";
 
 interface ISubtitleLine {
@@ -41,7 +41,7 @@ export class SubtitleList {
     return new SubtitleList(lineList);
   }
 
-  protected lines: ISubtitleLine[];
+  public lines: ISubtitleLine[];
 
   /**
    * Default constructor, not to be called directly
@@ -64,6 +64,43 @@ export class SubtitleList {
     });
     return result;
   }
+
+  /**
+   * Cleans up a raw cc subtitle list
+   */
+  public cleanUpCcLines() {
+    this.lines.forEach((line) => {
+      line.eng = formatter.ccCleanup(line.eng);
+    });
+    this.lines = this.lines.filter((line) => {
+      return line != null;
+    });
+  }
+
+  /**
+   * Reformat all the lines
+   */
+  public reformat() {
+    this.lines.forEach((line) => {
+      line.eng = reformatLine(line.eng);
+      line.chs = reformatLine(line.chs);
+    });
+    this.lines = this.lines.filter((line) => line.chs || line.eng);
+  }
+
+  /**
+   * Translates all names according to the name dictionary given
+   *
+   * @param rawNameDict {INameDict} a dictionary of names
+   */
+  public translateNames(rawNameDict: INameDict) {
+    let allChs = this.lines.map((line) => line.chs != null ? line.chs : "").join("\n");
+    allChs = formatter.translateNames(allChs, formatter.organizeNameDict(rawNameDict));
+    const allChsList = allChs.split("\n");
+    this.lines.forEach((line, index) => {
+      line.chs = allChsList[index] !== "" ? allChsList[index] : null;
+    });
+  }
 }
 
 function printSubtitleLine(line: ISubtitleLine): string {
@@ -71,6 +108,18 @@ function printSubtitleLine(line: ISubtitleLine): string {
   const eng = line.eng ? line.eng + EOL : "";
   const chs = line.chs ? line.chs + EOL : "";
   return header + eng + chs;
+}
+
+function reformatLine(line: string): string {
+  if (!line) {
+    return null;
+  }
+  line = line.replace(/^\s*/, ""); // delete leading spaces
+  line = line.replace(/\s*$/, ""); // trailing spaces
+  line = formatter.formatPunctuations(line);
+  line = formatter.formatLyricsIfIsLyrics(line);
+  line = formatter.formatDialogIfIsDialog(line);
+  return line;
 }
 
 function constructCcLineWithStringGroup(group: string): ISubtitleLine {

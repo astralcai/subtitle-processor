@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "npm run build-ts && npm run lint",
+    "build": "npm run lint && npm run build-ts",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "lint": "npx tslint -c tslint.json -p tsconfig.json"

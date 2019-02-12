@@ -6,6 +6,8 @@
 
 import {SubtitleList} from "./lib/subtitles";
 
+export {constructRawNameDict, NAME_DELIMITER} from "./lib/formatter";
+
 export {SubtitleList};
 
 export function loadCc(ccString: string): SubtitleList {
