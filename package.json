@@ -1,0 +1,29 @@
+{
+  "name": "subtitle-processor",
+  "version": "1.0.0",
+  "description": "A set of API for subtitle processing and a data structure to store subtitles",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npm run build-ts && npm run lint",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "lint": "npx tslint -c tslint.json -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astralcai/subtitle-processor.git"
+  },
+  "author": "Astral Cai",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/astralcai/subtitle-processor/issues"
+  },
+  "homepage": "https://github.com/astralcai/subtitle-processor#readme",
+  "devDependencies": {
+    "@types/node": "^11.9.0",
+    "shelljs": "^0.8.3",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  }
+}
