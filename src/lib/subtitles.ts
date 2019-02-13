@@ -95,6 +95,18 @@ export class SubtitleList {
   }
 
   /**
+   * Assign new index to all lines in order
+   *
+   * @returns {SubtitleList} self for chaining
+   */
+  public renumber(): SubtitleList {
+    this.lines.forEach((line, index) => {
+      line.index = "" + index;
+    });
+    return this;
+  }
+
+  /**
    * Finds all untranslated English words in all Chinese lines, typically names
    *
    * @returns {string[]}
