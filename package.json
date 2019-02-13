@@ -10,6 +10,9 @@
     "watch-ts": "tsc -w",
     "lint": "npx tslint -c tslint.json -p tsconfig.json"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/astralcai/subtitle-processor.git"
