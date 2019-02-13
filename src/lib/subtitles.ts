@@ -67,25 +67,31 @@ export class SubtitleList {
 
   /**
    * Cleans up a raw cc subtitle list
+   *
+   * @returns {SubtitleList} self for chaining
    */
-  public cleanUpCcLines() {
+  public cleanUpCcLines(): SubtitleList {
     this.lines.forEach((line) => {
       line.eng = formatter.ccCleanup(line.eng);
     });
     this.lines = this.lines.filter((line) => {
       return line != null;
     });
+    return this;
   }
 
   /**
    * Reformat all the lines
+   *
+   * @returns {SubtitleList} self for chaining
    */
-  public reformat() {
+  public reformat(): SubtitleList {
     this.lines.forEach((line) => {
       line.eng = reformatLine(line.eng);
       line.chs = reformatLine(line.chs);
     });
     this.lines = this.lines.filter((line) => line.chs || line.eng);
+    return this;
   }
 
   /**
@@ -115,14 +121,16 @@ export class SubtitleList {
    * Translates all names according to the name dictionary given
    *
    * @param rawNameDict {INameDict} a dictionary of names
+   * @returns {SubtitleList} self for chaining
    */
-  public translateNames(rawNameDict: INameDict) {
+  public translateNames(rawNameDict: INameDict): SubtitleList {
     let allChs = this.lines.map((line) => line.chs != null ? line.chs : "").join("\n");
     allChs = formatter.translateNames(allChs, formatter.organizeNameDict(rawNameDict));
     const allChsList = allChs.split("\n");
     this.lines.forEach((line, index) => {
       line.chs = allChsList[index] !== "" ? allChsList[index] : null;
     });
+    return this;
   }
 }
 
