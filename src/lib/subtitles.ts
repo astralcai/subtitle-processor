@@ -26,7 +26,7 @@ export class SubtitleList {
    */
   public static fromSubtitles(subtitleString: string): SubtitleList {
     const groupList = splitSubtitleStringIntoGroups(subtitleString);
-    const lineList: ISubtitleLine[] = groupList.map(constructCcLineWithStringGroup);
+    const lineList: ISubtitleLine[] = groupList.map(constructSubtitleLineWithStringGroup);
     return new SubtitleList(lineList);
   }
 
@@ -37,7 +37,7 @@ export class SubtitleList {
    */
   public static fromCc(ccString: string): SubtitleList {
     const groupList = splitSubtitleStringIntoGroups(ccString);
-    const lineList: ISubtitleLine[] = groupList.map(constructSubtitleLineWithStringGroup);
+    const lineList: ISubtitleLine[] = groupList.map(constructCcLineWithStringGroup);
     return new SubtitleList(lineList);
   }
 
@@ -194,6 +194,11 @@ export function splitSubtitleStringIntoGroups(subString: string): string[] {
       buffer = buffer + token.replace(/ *\n/g, "\n");
     }
   });
+
+  if (buffer) {
+    // last remaining line in the buffer
+    groups.push(buffer.replace(/\s*$/, ""));
+  }
 
   return groups;
 }
