@@ -1,6 +1,6 @@
 {
   "name": "subtitle-processor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A set of API for subtitle processing and a data structure to store subtitles",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
